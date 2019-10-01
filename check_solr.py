@@ -183,16 +183,16 @@ def main():
             return(3)
     
     if pingerrors:
-        print "CRITICAL: Error pinging cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(pingerrors), ", ".join(cores), len(cores-pingerrors))
+        print "[CRITICAL]: Error pinging cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(pingerrors), ", ".join(cores), len(cores-pingerrors))
         return(2)
     elif repcrit:
-        print "CRITICAL: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repcrit), ", ".join(cores), len(cores-repcrit))
+        print "[CRITICAL]: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repcrit), ", ".join(cores), len(cores-repcrit))
         return(2)
     elif repwarn:
-        print "WARNING: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repwarn), ", ".join(cores), len(cores-repwarn))
+        print "[WARNING]: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repwarn), ", ".join(cores), len(cores-repwarn))
         return(1)
     else:
-        print "OK. Tested core(s) - {0} |TotalOKCores={1}".format(", ".join(cores), len(cores))
+        print "[OK]. Tested core(s) - {0} |TotalOKCores={1}".format(", ".join(cores), len(cores))
         return(0)
 
 if __name__ == '__main__':
