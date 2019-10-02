@@ -58,7 +58,7 @@ node(params.hostname) {
 		}
 	 ]
 	}"""
-    echo rpm_upload_spec
+    echo srpm_upload_spec
 
 	currentBuild.result = "SUCCESS"
 	env.CREDENTIALS_STORE = 'udahadoopops'
