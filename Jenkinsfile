@@ -32,13 +32,14 @@ node(params.hostname) {
     env.REPO_NAME = params.repo
 	env.ARTIFACTORY_SERVER = 'https://ghsudarepo1rlxv.geisinger.edu/artifactory'
 	env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/RPMS"
+	env.SRPM_ROOT = env.WORKSPACE + "/plugin-repo/SRPMS"
     env.upload_spec = ""
 
 	// Define upload spec for RPM uploads
 	// Does not currently notify you if 0 artifacts were found (BUG?)"
 	// "props": "type=rpm"
-	echo "Defining upload spec"
-	upload_spec = """{
+	echo "Defining RPM upload spec"
+	rpm_upload_spec = """{
 	  "files": [
 		{
 		  "pattern": "${RPM_ROOT}/*/*.rpm",
@@ -46,7 +47,18 @@ node(params.hostname) {
 		}
 	 ]
 	}"""
-    echo upload_spec
+    echo rpm_upload_spec
+
+	echo "Defining SRPM upload spec"
+	srpm_upload_spec = """{
+	  "files": [
+		{
+		  "pattern": "${RPM_ROOT}/*.rpm",
+		  "target": "$REPO_NAME/check-solr/"
+		}
+	 ]
+	}"""
+    echo rpm_upload_spec
 
 	currentBuild.result = "SUCCESS"
 	env.CREDENTIALS_STORE = 'udahadoopops'
@@ -77,7 +89,8 @@ node(params.hostname) {
             if (params.deploy == 'deploy') {
                 echo "Uploading RPM package to Artifactory"
                 server = Artifactory.newServer url: env.ARTIFACTORY_SERVER, credentialsId: 'cdis_sys_prod'
-                buildInfo = server.upload spec: upload_spec
+                buildInfo = server.upload spec: rpm_upload_spec
+                buildInfo = server.upload spec: srpm_upload_spec
 
                 // Publish build info (doesn't work?)
                 //artifactory_server.publishBuildInfo buildinfo
