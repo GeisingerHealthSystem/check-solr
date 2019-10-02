@@ -53,7 +53,7 @@ node(params.hostname) {
 	srpm_upload_spec = """{
 	  "files": [
 		{
-		  "pattern": "${RPM_ROOT}/*.rpm",
+		  "pattern": "${SRPM_ROOT}/*.rpm",
 		  "target": "$REPO_NAME/check-solr/"
 		}
 	 ]
