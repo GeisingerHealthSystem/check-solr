@@ -57,11 +57,12 @@ node(params.hostname) {
 			}
 		}
 		stage('Build rpm') {
-			dir('plugin-repo/check-solr') {
+			dir('plugin-repo') {
 				sh script: """
 					rm -rf BUILD RPMS SOURCES SPECS SRPMS && mkdir BUILD RPMS SOURCES SPECS SRPMS
 					spectool -g -R check-solr.spec -C SOURCES
-					rpmbuild --define "_topdir `pwd`" -bb check-solr.spec
+					rpmbuild --define "_topdir `pwd`" -ba check-solr.spec
+                    find . -type f -name "*.rpm" -print -exec rpm -qlpv {} \\;
 				"""
 			}
 		}
