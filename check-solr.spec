@@ -6,7 +6,7 @@ Summary: Nagios/Icinga check for Solr.
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: https://github.com/GeisingerHealthSystem/nagios-solr
+Source0: https://github.com/dropbox/%{name}/archive/%{version}.tar.gz
 License: None
 Group: Development/Tools
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -21,6 +21,7 @@ Nagios/Icinga check for Solr.
 %pre
 
 %prep
+%setup -n %{version} -n %{version}
 
 %install
 cd %{_sourcedir}
