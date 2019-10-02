@@ -1,7 +1,7 @@
 # List of vars/macros:
 # https://docs.fedoraproject.org/en-US/Fedora_Draft_Documentation/0.1/html-single/RPM_Guide/index.html
 %define name check-solr
-%define version 0.1.1
+%define version 0.2.1
 %define release 1
 
 Summary: Nagios/Icinga check for Solr.
