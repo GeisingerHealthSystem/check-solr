@@ -31,7 +31,7 @@ node(params.hostname) {
 	//Definition by node-id does not seem to be working? 403, Jenkins system config is fine
     env.REPO_NAME = params.repo
 	env.ARTIFACTORY_SERVER = 'https://ghsudarepo1rlxv.geisinger.edu/artifactory'
-	env.RPM_ROOT = env.WORKSPACE + "/rpm-repo/check-solr/RPMS"
+	env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/check-solr/RPMS"
     env.upload_spec = ""
 
 	// Define upload spec for RPM uploads
@@ -52,12 +52,12 @@ node(params.hostname) {
 	env.CREDENTIALS_STORE = 'udahadoopops'
 	try {
 		stage('Checkout') {
-			dir('rpm-repo') {
-				git url: 'https://github.com/GeisingerHealthSystem/rpm', credentialsId: env.CREDENTIALS_STORE
+			dir('plugin-repo') {
+				git url: 'https://github.com/GeisingerHealthSystem/check-solr', credentialsId: env.CREDENTIALS_STORE
 			}
 		}
 		stage('Build rpm') {
-			dir('rpm-repo/check-solr') {
+			dir('plugin-repo/check-solr') {
 				sh script: """
 					rm -rf BUILD RPMS SOURCES SPECS SRPMS && mkdir BUILD RPMS SOURCES SPECS SRPMS
 					spectool -g -R check-solr.spec -C SOURCES
