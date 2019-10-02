@@ -79,7 +79,7 @@ node(params.hostname) {
 				"""
 			}
 		}
-		stage('Upload RPM to Artifactory') {
+		stage('Upload RPM(s) to Artifactory') {
 			echo "Verifying existance of file"
 			env.RPMPKG = sh(returnStdout: true, script: "find ${RPM_ROOT} -name check-solr*.rpm").trim()
 			if(fileExists(env.RPMPKG)) {
