@@ -33,7 +33,8 @@ node(params.hostname) {
 	env.ARTIFACTORY_SERVER = 'https://ghsudarepo1rlxv.geisinger.edu/artifactory'
 	env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/RPMS"
 	env.SRPM_ROOT = env.WORKSPACE + "/plugin-repo/SRPMS"
-    env.upload_spec = ""
+    env.rpm_upload_spec = ""
+    env.srpm_upload_spec = ""
 
 	// Define upload spec for RPM uploads
 	// Does not currently notify you if 0 artifacts were found (BUG?)"
