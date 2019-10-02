@@ -31,7 +31,7 @@ node(params.hostname) {
 	//Definition by node-id does not seem to be working? 403, Jenkins system config is fine
     env.REPO_NAME = params.repo
 	env.ARTIFACTORY_SERVER = 'https://ghsudarepo1rlxv.geisinger.edu/artifactory'
-	env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/check-solr/RPMS"
+	env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/RPMS"
     env.upload_spec = ""
 
 	// Define upload spec for RPM uploads
@@ -41,7 +41,7 @@ node(params.hostname) {
 	upload_spec = """{
 	  "files": [
 		{
-		  "pattern": "${RPM_ROOT}/*.rpm",
+		  "pattern": "${RPM_ROOT}/*/*.rpm",
 		  "target": "$REPO_NAME/check-solr/"
 		}
 	 ]
