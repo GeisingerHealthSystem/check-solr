@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 '''
 check_solr.py - v0.2 -  Chris Ganderton <github@thefraggle.com>
 
@@ -84,7 +83,7 @@ def solrping(core):
         return "CRITICAL"
     try:
         data = json.loads(jsondata)
-    except ValueError, e:
+    except ValueError as e:
         return "CRITICAL"
 
     status = data.get('status')
@@ -112,15 +111,15 @@ def main():
         return(3)
 
     if not cmd_options.check_replication and not cmd_options.check_ping:
-        print "ERROR: Please specify -r or -P"
+        print("ERROR: Please specify -r or -P")
         return(3)
 
     if ((cmd_options.threshold_warn and not cmd_options.threshold_crit) or (cmd_options.threshold_crit and not cmd_options.threshold_warn)):
-        print "ERROR: Please use -w and -c together."
+        print("ERROR: Please use -w and -c together.")
         return(3)
 
     if cmd_options.threshold_crit <= cmd_options.threshold_warn:
-        print "ERROR: the value for (-c|--critical) must be greater than (-w|--warn)"
+        print("ERROR: the value for (-c|--critical) must be greater than (-w|--warn)")
         return(3)
 
     solr_server         = cmd_options.solr_server
@@ -146,14 +145,14 @@ def main():
     else:
         try:
             all_cores = listcores()
-        except IOError as (errno, strerror):
-            print "CRITICAL: {0} - {1}".format(errno,strerror)
+        except IOError as e:
+            print("CRITICAL: {0}".format(e))
             return(2)
         except (ValueError, TypeError):
-            print "CRITICAL: probably couldn't format JSON data, check SOLR is ok"
+            print("CRITICAL: probably couldn't format JSON data, check SOLR is ok")
             return(3)
         except:
-            print "CRITICAL: Unknown error" 
+            print("CRITICAL: Unknown error")
             return(3)
 
     cores = all_cores - ignore_cores
@@ -170,29 +169,29 @@ def main():
             if check_ping:
                 if solrping(core) != 'OK':
                     pingerrors.add(core)
-    except IOError as (errno, strerror):
-        print "CRITICAL: {0} {1} ".format(errno, strerror)
+    except IOError as e:
+        print("CRITICAL: {0}".format(e))
         return(2)
     except KeyError as strerror:
         if 'slave' in strerror: 
-            print "CRITCAL: This doesn't seem to be a slave, are you sure you meant to call -r?"
+            print("CRITCAL: This doesn't seem to be a slave, are you sure you meant to call -r?")
             return(2)
         else:
-            print "CRITICAL: unknown error (error string: {0})".format(strerror)
-            print strerror
+            print("CRITICAL: unknown error (error string: {0})".format(strerror))
+            print(strerror)
             return(3)
     
     if pingerrors:
-        print "[CRITICAL]: Error pinging cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(pingerrors), ", ".join(cores), len(cores-pingerrors))
+        print("[CRITICAL]: Error pinging cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(pingerrors), ", ".join(cores), len(cores-pingerrors)))
         return(2)
     elif repcrit:
-        print "[CRITICAL]: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repcrit), ", ".join(cores), len(cores-repcrit))
+        print("[CRITICAL]: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repcrit), ", ".join(cores), len(cores-repcrit)))
         return(2)
     elif repwarn:
-        print "[WARNING]: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repwarn), ", ".join(cores), len(cores-repwarn))
+        print("[WARNING]: Replication errors on cores(s) - {0}. Tested core(s) - {1} |TotalOKCores={2}".format(", ".join(repwarn), ", ".join(cores), len(cores-repwarn)))
         return(1)
     else:
-        print "[OK]. Tested core(s) - {0} |TotalOKCores={1}".format(", ".join(cores), len(cores))
+        print("[OK]. Tested core(s) - {0} |TotalOKCores={1}".format(", ".join(cores), len(cores)))
         return(0)
 
 if __name__ == '__main__':
