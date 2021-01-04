@@ -99,15 +99,12 @@ node(params.hostname) {
             }
         }
         stage('Prepare Source'){
-            dir('plugin-repo'){
                 sh script: """
-                    mkdir SOURCES
-                    cp -r .  ${PKG_NAME}-${PKG_VERSION}
-                    tar -czvf SOURCES/${PKG_NAME}-${PKG_VERSION}.tar.gz ${PKG_NAME}-${PKG_VERSION}
+                    mkdir plugin-repo/SOURCES
+                    cp -r plugin-repo  ${PKG_NAME}-${PKG_VERSION}
+                    tar -czvf plugin-repo/SOURCES/${PKG_NAME}-${PKG_VERSION}.tar.gz ${PKG_NAME}-${PKG_VERSION}
                     rm -rf ${PKG_NAME}-${PKG_VERSION}
                 """
-
-            }
         }
         stage('Build rpm') {
             dir('plugin-repo') {
