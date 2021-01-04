@@ -26,12 +26,11 @@ Nagios/Icinga check for Solr.
 %prep
 %setup -n %{name}-%{version}
 
+%build
+python3 setup.py build
+
 %install
-mkdir -p %{buildroot}/usr/lib64/nagios/plugins
-install -p -m 755 check_solr %{buildroot}/usr/lib64/nagios/plugins
+python3 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
 
-%files
-/usr/lib64/nagios/plugins/check_solr
-
-%changelog
-
+%files -f INSTALLED_FILES
+%defattr(-,root,root)
