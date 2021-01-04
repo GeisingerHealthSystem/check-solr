@@ -40,8 +40,8 @@ node(params.hostname) {
     // Make sure you update the RPM spec file versin alongside the tarball version below
     env.PKG_NAME = 'check-solr'
     env.PKG_VERSION = '1.0.0'
-    env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/${PKG_NAME}/RPMS"
-    env.SRPM_ROOT = env.WORKSPACE + "/plugin-repo/${PKG_NAME}/SRPMS"
+    env.RPM_ROOT = env.WORKSPACE + "/plugin-repo/RPMS"
+    env.SRPM_ROOT = env.WORKSPACE + "/plugin-repo/SRPMS"
 
     echo "Connecting to Artifactory"
     //Define artifactory server
