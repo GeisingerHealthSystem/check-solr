@@ -1,14 +1,15 @@
 # List of vars/macros:
 # https://docs.fedoraproject.org/en-US/Fedora_Draft_Documentation/0.1/html-single/RPM_Guide/index.html
 %define name check-solr
-%define version 0.2.1
+%define version 0.0.1
+%define unmangled_version 0.0.1
 %define release 1
 
 Summary: Nagios/Icinga check for Solr.
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: https://github.com/GeisingerHealthSystem/%{name}/archive/v%{version}.tar.gz
+Source0: %{name}-%{unmangled_version}.tar.gz
 License: None
 Group: Development/Tools
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
