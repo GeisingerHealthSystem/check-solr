@@ -21,13 +21,15 @@ EXAMPLE: ./check_solr_rep.py -H localhost -p 8093 -W solr -r -w 10 -c 20
 
 '''
 import urllib, json, sys
+import urllib.parse
+import urllib.request
 from optparse import OptionParser
 
 def listcores():
-    status_cmd  = baseurl + core_admin_url + urllib.urlencode({'action':'status','wt':'json'})
+    status_cmd  = baseurl + core_admin_url + urllib.parse.urlencode({'action':'status','wt':'json'})
     cores       = set()
 
-    res         = urllib.urlopen(status_cmd)
+    res         = urllib.request.urlopen(status_cmd)
     data        = json.loads(res.read())
 
     core_data   = data['status']
@@ -38,17 +40,17 @@ def listcores():
     return cores
 
 def version(core):
-    ver_cmd     = rep_cmd     = baseurl + core + '/admin/system?' + urllib.urlencode({'wt':'json'})
+    ver_cmd     = rep_cmd     = baseurl + core + '/admin/system?' + urllib.parse.urlencode({'wt':'json'})
 
-    rres        = urllib.urlopen(ver_cmd)
+    rres        = urllib.request.urlopen(ver_cmd)
     rdata       = json.loads(rres.read())
     version_number     = rdata['lucene']['solr-spec-version'].split()[0]
     return version_number
 
 def repstatus(core):
-    rep_cmd     = baseurl + core + '/replication?' + urllib.urlencode({'command':'details','wt':'json'})
+    rep_cmd     = baseurl + core + '/replication?' + urllib.parse.urlencode({'command':'details','wt':'json'})
 
-    rres        = urllib.urlopen(rep_cmd)
+    rres        = urllib.request.urlopen(rep_cmd)
     rdata       = json.loads(rres.read())
 
     localgeneration  = rdata['details'].get('generation')
@@ -74,9 +76,9 @@ def repstatus(core):
     return status
 
 def solrping(core):
-    ping_cmd = baseurl + core + '/admin/ping?' + urllib.urlencode({'wt':'json'})
+    ping_cmd = baseurl + core + '/admin/ping?' + urllib.parse.urlencode({'wt':'json'})
 
-    res = urllib.urlopen(ping_cmd)
+    res = urllib.request.urlopen(ping_cmd)
     jsondata = res.read();
 
     if jsondata == False:
@@ -151,7 +153,8 @@ def main():
         except (ValueError, TypeError):
             print("CRITICAL: probably couldn't format JSON data, check SOLR is ok")
             return(3)
-        except:
+        except Exception as e:
+            print(e)
             print("CRITICAL: Unknown error")
             return(3)
 
